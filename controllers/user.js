@@ -4,7 +4,7 @@ const sharp = require('sharp');
 const cloudinary = require('../helper/imageUpload');
 
 exports.createUser = async (req, res) => {
-  const { fullname, email, password } = req.body;
+  const { fullname, money, email, password } = req.body;
   const isNewUser = await User.isThisEmailInUse(email);
   if (!isNewUser)
     return res.json({
@@ -13,6 +13,7 @@ exports.createUser = async (req, res) => {
     });
   const user = await User({
     fullname,
+    money,
     email,
     password,
   });
@@ -59,6 +60,7 @@ exports.userSignIn = async (req, res) => {
 
   const userInfo = {
     fullname: user.fullname,
+    money: user.money,
     email: user.email,
     avatar: user.avatar ? user.avatar : '',
   };
